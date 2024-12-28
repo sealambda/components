@@ -1,14 +1,15 @@
 {
-  "name": "spinning-wheel",
+  "name": "@sealambda/components",
   "version": "0.0.1",
-  "description": "Stencil Component Starter",
+  "description": "Sealambda Web Components",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
   "types": "dist/types/index.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
-  "unpkg": "dist/spinning-wheel/spinning-wheel.esm.js",
+  "unpkg": "dist/seal-components/seal-components.esm.js",
   "packageManager": "pnpm@9.15.1",
+  "license": "MIT",
   "exports": {
     ".": {
       "import": "./dist/spinning-wheel/spinning-wheel.esm.js",

@@ -1,14 +1,28 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-    <title>Stencil Component Starter</title>
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" name="viewport" />
+  <title>Stencil Component Starter</title>
 
-    <script type="module" src="/build/spinning-wheel.esm.js"></script>
-    <script nomodule src="/build/spinning-wheel.js"></script>
-  </head>
+  <script src="/build/seal-components.esm.js" type="module"></script>
+  <script nomodule src="/build/seal-components.js"></script>
+</head>
   <body>
-    <my-component first="Stencil" middle="'Don't call me a framework'" last="JS"></my-component>
+    <my-component first="Stencil" last="JS" middle="'Don't call me a framework'"></my-component>
+
+    <seal-roulette></seal-roulette>
   </body>
+
+<script>
+  const sealRoulette = document.querySelector('seal-roulette');
+
+  sealRoulette.addEventListener('spinning', () => {
+    console.log('Roulette started spinning');
+  });
+
+  sealRoulette.addEventListener('stopped', (event) => {
+    console.log('Selected arc:', event.detail);
+  });
+</script>
 </html>

@@ -1,4 +1,4 @@
-import { Component, Prop, h } from '@stencil/core';
+import { Component, h, Prop } from '@stencil/core';
 import { format } from '../../utils/utils';
 
 @Component({
@@ -10,23 +10,23 @@ export class MyComponent {
   /**
    * The first name
    */
-  @Prop() first: string;
+  @Prop() first?: string;
 
   /**
    * The middle name
    */
-  @Prop() middle: string;
+  @Prop() middle?: string;
 
   /**
    * The last name
    */
-  @Prop() last: string;
-
-  private getText(): string {
-    return format(this.first, this.middle, this.last);
-  }
+  @Prop() last?: string;
 
   render() {
     return <div>Hello, World! I'm {this.getText()}</div>;
+  }
+
+  private getText(): string {
+    return format(this.first, this.middle, this.last);
   }
 }
