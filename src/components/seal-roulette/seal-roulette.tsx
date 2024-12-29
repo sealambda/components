@@ -75,6 +75,21 @@ export class SealRoulette implements ComponentInterface {
    */
   private wheelBearingConstraint?: Constraint;
 
+  private get singleArcAngle() {
+    return (Math.PI * 2) / this.arcs.length;
+  }
+
+  private get currentIndex() {
+    const rotationWithOffset = (this.wheelBody?.angle ?? 0) + this.singleArcAngle / 2;
+    const normalizedRotation = rotationWithOffset % (Math.PI * 2);
+    const positiveRotation = normalizedRotation < 0 ? normalizedRotation + Math.PI * 2 : normalizedRotation;
+    const index = Math.round(positiveRotation / this.singleArcAngle);
+    if (index === this.arcs.length) {
+      return 0;
+    }
+    return index;
+  }
+
   componentWillLoad() {
     const app = new Application();
     const engine = Engine.create({
@@ -206,7 +221,7 @@ export class SealRoulette implements ComponentInterface {
         Body.setAngularVelocity(wheelBody, 0);
 
         // TODO This is not getting the correct index
-        const idx = Math.floor((wheelBody.angle % (Math.PI * 2)) / ((Math.PI * 2) / this.arcs.length));
+        const idx = this.currentIndex;
         const arc = this.arcs[idx];
         this.stopped.emit([idx, arc]);
       }
@@ -254,7 +269,7 @@ export class SealRoulette implements ComponentInterface {
     const { radius: r, arcs } = this;
 
     const arcsCount = arcs.length;
-    const angle = (Math.PI * 2) / arcsCount;
+    const angle = this.singleArcAngle;
 
     return arcs.flatMap(({ label: text, arcColor, textStyle }, idx) => {
       const h = ((idx % 6) / arcsCount) * 270;
@@ -264,7 +279,7 @@ export class SealRoulette implements ComponentInterface {
 
       const arc = new Graphics().moveTo(0, 0).arc(0, 0, r, 0, angle).fill(fill);
 
-      const arcRotation = angle * idx;
+      const arcRotation = -angle * idx;
       arc.rotation = arcRotation;
 
       const textRotation = arcRotation + angle / 2;

@@ -19,12 +19,10 @@
 
   sealRoulette.addEventListener('spinning', () => {
     console.log('Roulette started spinnng');
-    sealRoulette.radius = Math.random() * 100 + 200;
   });
 
   sealRoulette.addEventListener('stopped', (event) => {
     console.log('Selected arc:', event.detail);
-    sealRoulette.radius = Math.random() * 100 + 200;
   });
 </script>
 </html>
