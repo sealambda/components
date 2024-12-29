@@ -133,10 +133,11 @@ export class SealRoulette implements ComponentInterface {
   }
 
   async componentDidLoad() {
+    const { radius, canvas, app, engine, wheel, wheelBody } = this;
+
     // TODO Should be based on the size of the parent element
-    const width = 1024;
-    const height = 512;
-    const { canvas, app, engine, wheel, wheelBody } = this;
+    const width = radius * 2;
+    const height = radius * 2;
 
     if (!canvas) {
       throw new Error('Canvas element not found');
