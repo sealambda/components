@@ -1,4 +1,4 @@
-import { Component, ComponentInterface, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
+import { Component, ComponentInterface, Event, EventEmitter, h, Host, Prop, Watch } from '@stencil/core';
 import { Application, Container, FillInput, Graphics, Text, TextStyle, TextStyleOptions } from 'pixi.js';
 import { Bodies, Body, Composite, Constraint, Engine, IConstraintDefinition, Mouse, MouseConstraint, Runner } from 'matter-js';
 
@@ -69,6 +69,12 @@ export class SealRoulette implements ComponentInterface {
    */
   private wheelBody?: Body;
 
+  /**
+   * The wheel bearing constraint
+   * @private
+   */
+  private wheelBearingConstraint?: Constraint;
+
   componentWillLoad() {
     const app = new Application();
     const engine = Engine.create({
@@ -77,59 +83,52 @@ export class SealRoulette implements ComponentInterface {
       constraintIterations: 20,
     });
 
-    const { radius: r, arcs } = this;
-
-    const wheel = new Container({ x: r, y: r });
-
-    const arcsCount = arcs.length;
-    const angle = (Math.PI * 2) / arcsCount;
-
-    const arcsGraphics = arcs.flatMap(({ label: text, arcColor, textStyle }, idx) => {
-      const h = ((idx % 6) / arcsCount) * 270;
-      const s = 90;
-      const l = 70;
-      const fill = arcColor ?? { h, s, l };
-
-      const arc = new Graphics().moveTo(0, 0).arc(0, 0, r, 0, angle).fill(fill);
-
-      const arcRotation = angle * idx;
-      arc.rotation = arcRotation;
-
-      const textRotation = arcRotation + angle / 2;
-      const textRadius = r * 0.92;
-
-      const style = textStyle ?? { fill: { h, s: 100, l: 20 } };
-      const label = new Text({
-        text,
-        style,
-        anchor: { x: 1, y: 0.5 }, // Right-aligned and vertically centered
-        position: {
-          x: Math.cos(textRotation) * textRadius,
-          y: Math.sin(textRotation) * textRadius,
-        },
-        rotation: textRotation,
-      });
-
-      return [arc, label];
-    });
-
-    const wheelBody = Bodies.circle(r, r, r, { frictionAir: 0.15 });
-
-    const wheelBearingConstraint = Constraint.create({
-      pointA: { x: r, y: r },
-      bodyB: wheelBody,
-      length: 0,
-      stiffness: 1,
-    });
-    Composite.add(engine.world, [wheelBody, wheelBearingConstraint]);
-
-    wheel.addChild(...arcsGraphics);
-
     this.app = app;
     this.engine = engine;
     this.runner = Runner.run(engine);
+
+    const { wheel, wheelBody, wheelBearingConstraint } = this.generateWheel();
+
     this.wheel = wheel;
     this.wheelBody = wheelBody;
+    this.wheelBearingConstraint = wheelBearingConstraint;
+  }
+
+  @Watch('arcs')
+  watchArcsHandler() {
+    const { wheel } = this;
+    if (!wheel) {
+      return;
+    }
+
+    const arcs = this.generateArcs();
+
+    wheel.removeChildren();
+    wheel.addChild(...arcs);
+  }
+
+  @Watch('radius')
+  watchRadiusHandler() {
+    const { wheel, wheelBody, wheelBearingConstraint, engine, app } = this;
+    if (!wheel || !engine || !app || !wheelBody || !wheelBearingConstraint) {
+      return;
+    }
+
+    const { angle, angularVelocity } = wheelBody;
+
+    Composite.remove(engine.world, wheelBody);
+    Composite.remove(engine.world, wheelBearingConstraint);
+
+    app.stage.removeChildren();
+    const { wheel: newWheel, wheelBody: newWheelBody, wheelBearingConstraint: newWheelBearingConstraint } = this.generateWheel();
+    app.stage.addChild(newWheel);
+
+    Body.setAngle(newWheelBody, angle);
+    Body.setAngularVelocity(newWheelBody, angularVelocity);
+
+    this.wheel = newWheel;
+    this.wheelBody = newWheelBody;
+    this.wheelBearingConstraint = newWheelBearingConstraint;
   }
 
   async componentDidLoad() {
@@ -159,12 +158,16 @@ export class SealRoulette implements ComponentInterface {
       throw new Error('Wheel body not found');
     }
 
+    // if (debug) {
+    // const render = Render.create({ canvas, engine, options: { wireframes: false } });
+    // Render.run(render);
+    // } else {
+    //   Render.run(engine);
+    // }
+
     await app.init({ width, height, antialias: true, backgroundAlpha: 0, canvas });
 
     app.stage.addChild(wheel);
-
-    // const render = Render.create({ canvas, engine, options: { wireframes: false } });
-    // Render.run(render);
 
     const mouse = Mouse.create(canvas);
 
@@ -184,6 +187,12 @@ export class SealRoulette implements ComponentInterface {
 
     let lastDelta = 1;
     app.ticker?.add(({ deltaTime }) => {
+      const { wheel, wheelBody } = this;
+
+      if (!wheel || !wheelBody) {
+        return;
+      }
+
       Engine.update(engine, deltaTime, deltaTime / lastDelta);
       lastDelta = deltaTime;
 
@@ -235,10 +244,71 @@ export class SealRoulette implements ComponentInterface {
   render() {
     return (
       <Host>
-        <h1>Sealambda Roulette</h1>
         <canvas ref={el => (this.canvas = el)}></canvas>
         <slot></slot>
       </Host>
     );
+  }
+
+  private generateArcs(): (Graphics | Text)[] {
+    const { radius: r, arcs } = this;
+
+    const arcsCount = arcs.length;
+    const angle = (Math.PI * 2) / arcsCount;
+
+    return arcs.flatMap(({ label: text, arcColor, textStyle }, idx) => {
+      const h = ((idx % 6) / arcsCount) * 270;
+      const s = 90;
+      const l = 70;
+      const fill = arcColor ?? { h, s, l };
+
+      const arc = new Graphics().moveTo(0, 0).arc(0, 0, r, 0, angle).fill(fill);
+
+      const arcRotation = angle * idx;
+      arc.rotation = arcRotation;
+
+      const textRotation = arcRotation + angle / 2;
+      const textRadius = r * 0.92;
+
+      const style = textStyle ?? { fill: { h, s: 100, l: 20 } };
+      const label = new Text({
+        text,
+        style,
+        anchor: { x: 1, y: 0.5 }, // Right-aligned and vertically centered
+        position: {
+          x: Math.cos(textRotation) * textRadius,
+          y: Math.sin(textRotation) * textRadius,
+        },
+        rotation: textRotation,
+      });
+
+      return [arc, label];
+    });
+  }
+
+  private generateWheel() {
+    const { radius: r, engine } = this;
+
+    if (!engine) {
+      throw new Error('Matter.js engine not initialized');
+    }
+
+    const wheel = new Container({ x: r, y: r });
+
+    const arcsGraphics = this.generateArcs();
+
+    wheel.addChild(...arcsGraphics);
+
+    const wheelBody = Bodies.circle(r, r, r, { frictionAir: 0.15 });
+
+    const wheelBearingConstraint = Constraint.create({
+      pointA: { x: r, y: r },
+      bodyB: wheelBody,
+      length: 0,
+      stiffness: 1,
+    });
+    Composite.add(engine.world, [wheelBody, wheelBearingConstraint]);
+
+    return { wheel, wheelBody, wheelBearingConstraint };
   }
 }
