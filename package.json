@@ -1,6 +1,6 @@
 {
   "name": "@sealambda/components",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Sealambda Web Components",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -8,16 +8,16 @@
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "unpkg": "dist/seal-components/seal-components.esm.js",
-  "packageManager": "pnpm@9.15.1",
+  "packageManager": "pnpm@9.15.2",
   "license": "MIT",
   "exports": {
     ".": {
-      "import": "./dist/spinning-wheel/spinning-wheel.esm.js",
-      "require": "./dist/spinning-wheel/spinning-wheel.cjs.js"
+      "import": "./dist/seal-components/seal-components.esm.js",
+      "require": "./dist/seal-components/seal-components.cjs.js"
     },
-    "./my-component": {
-      "import": "./dist/components/my-component.js",
-      "types": "./dist/components/my-component.d.ts"
+    "./seal-roulette": {
+      "import": "./dist/components/seal-roulette.js",
+      "types": "./dist/components/seal-roulette.d.ts"
     },
     "./loader": {
       "import": "./loader/index.js",
