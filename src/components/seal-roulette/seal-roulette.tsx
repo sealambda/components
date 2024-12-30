@@ -119,7 +119,9 @@ export class SealRoulette implements ComponentInterface {
 
     app.stage.removeChildren();
     const { wheel: newWheel, wheelBody: newWheelBody, wheelBearingConstraint: newWheelBearingConstraint } = this.generateWheel();
+
     app.stage.addChild(newWheel);
+    this.generatePointer();
 
     Body.setAngle(newWheelBody, angle);
     Body.setAngularVelocity(newWheelBody, angularVelocity);
@@ -212,6 +214,7 @@ export class SealRoulette implements ComponentInterface {
     await app.init({ width, height, antialias: true, backgroundAlpha: 0, canvas });
 
     app.stage.addChild(wheel);
+    this.generatePointer();
 
     const mouse = Mouse.create(canvas);
 
@@ -354,5 +357,23 @@ export class SealRoulette implements ComponentInterface {
     Composite.add(engine.world, [wheelBody, wheelBearingConstraint]);
 
     return { wheel, wheelBody, wheelBearingConstraint };
+  }
+
+  private generatePointer() {
+    const { radius: r, app } = this;
+
+    if (!app) {
+      throw new Error('Pixi.js application not initialized');
+    }
+
+    const h = 0; // Red
+    const s = 80;
+
+    const pointer = new Graphics()
+      .regularPoly(2 * r, r, r * 0.125, 3, Math.PI / 6)
+      .fill({ h, s, l: 60 })
+      .stroke({ width: r * 0.025, alignment: 0, color: { h, s, l: 50 } });
+
+    app.stage.addChild(pointer);
   }
 }
