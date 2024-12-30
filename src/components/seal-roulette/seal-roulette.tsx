@@ -1,4 +1,4 @@
-import { Component, ComponentInterface, Event, EventEmitter, h, Host, Prop, Watch } from '@stencil/core';
+import { Component, ComponentInterface, Event, EventEmitter, h, Host, Method, Prop, Watch } from '@stencil/core';
 import { Application, Container, FillInput, Graphics, Text, TextStyle, TextStyleOptions } from 'pixi.js';
 import { Bodies, Body, Composite, Constraint, Engine, IConstraintDefinition, Mouse, MouseConstraint, Runner } from 'matter-js';
 
@@ -13,6 +13,11 @@ export interface SealRouletteArc {
   shadow: true,
 })
 export class SealRoulette implements ComponentInterface {
+  /**
+   * The air friction applied to the wheel
+   */
+  @Prop() public frictionAir: number = 0.15;
+
   /**
    * The radius of the wheel
    */
@@ -90,36 +95,14 @@ export class SealRoulette implements ComponentInterface {
     return index;
   }
 
-  componentWillLoad() {
-    const app = new Application();
-    const engine = Engine.create({
-      gravity: { x: 0, y: 0 },
-      // The spinning of the wheel by dragging the mouse looked kind of bad without increasing the iterations
-      constraintIterations: 20,
-    });
-
-    this.app = app;
-    this.engine = engine;
-    this.runner = Runner.run(engine);
-
-    const { wheel, wheelBody, wheelBearingConstraint } = this.generateWheel();
-
-    this.wheel = wheel;
-    this.wheelBody = wheelBody;
-    this.wheelBearingConstraint = wheelBearingConstraint;
-  }
-
-  @Watch('arcs')
-  watchArcsHandler() {
-    const { wheel } = this;
-    if (!wheel) {
+  @Watch('frictionAir')
+  watchFrictionAirHandler() {
+    const { wheelBody } = this;
+    if (!wheelBody) {
       return;
     }
 
-    const arcs = this.generateArcs();
-
-    wheel.removeChildren();
-    wheel.addChild(...arcs);
+    Body.set(wheelBody, 'frictionAir', this.frictionAir);
   }
 
   @Watch('radius')
@@ -144,6 +127,52 @@ export class SealRoulette implements ComponentInterface {
     this.wheel = newWheel;
     this.wheelBody = newWheelBody;
     this.wheelBearingConstraint = newWheelBearingConstraint;
+  }
+
+  @Watch('arcs')
+  watchArcsHandler() {
+    const { wheel } = this;
+    if (!wheel) {
+      return;
+    }
+
+    const arcs = this.generateArcs();
+
+    wheel.removeChildren();
+    wheel.addChild(...arcs);
+  }
+
+  @Method()
+  async spin(force = 1e5) {
+    const { wheelBody, radius } = this;
+
+    if (!wheelBody) {
+      throw new Error('Wheel body not found');
+    }
+
+    const { position } = wheelBody;
+
+    Body.applyForce(wheelBody, { x: position.x + radius, y: position.y }, { x: 0, y: force });
+    Body.applyForce(wheelBody, { x: position.x - radius, y: position.y }, { x: 0, y: -force });
+  }
+
+  componentWillLoad() {
+    const app = new Application();
+    const engine = Engine.create({
+      gravity: { x: 0, y: 0 },
+      // The spinning of the wheel by dragging the mouse looked kind of bad without increasing the iterations
+      constraintIterations: 20,
+    });
+
+    this.app = app;
+    this.engine = engine;
+    this.runner = Runner.run(engine);
+
+    const { wheel, wheelBody, wheelBearingConstraint } = this.generateWheel();
+
+    this.wheel = wheel;
+    this.wheelBody = wheelBody;
+    this.wheelBearingConstraint = wheelBearingConstraint;
   }
 
   async componentDidLoad() {
@@ -302,7 +331,7 @@ export class SealRoulette implements ComponentInterface {
   }
 
   private generateWheel() {
-    const { radius: r, engine } = this;
+    const { frictionAir, radius: r, engine } = this;
 
     if (!engine) {
       throw new Error('Matter.js engine not initialized');
@@ -314,7 +343,7 @@ export class SealRoulette implements ComponentInterface {
 
     wheel.addChild(...arcsGraphics);
 
-    const wheelBody = Bodies.circle(r, r, r, { frictionAir: 0.15 });
+    const wheelBody = Bodies.circle(r, r, r, { frictionAir });
 
     const wheelBearingConstraint = Constraint.create({
       pointA: { x: r, y: r },

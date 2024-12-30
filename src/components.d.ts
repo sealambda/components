@@ -28,9 +28,14 @@ export namespace Components {
          */
         "arcs": SealRouletteArc[];
         /**
+          * The air friction applied to the wheel
+         */
+        "frictionAir": number;
+        /**
           * The radius of the wheel
          */
         "radius": number;
+        "spin": (force?: number) => Promise<void>;
     }
 }
 export interface SealRouletteCustomEvent<T> extends CustomEvent<T> {
@@ -87,6 +92,10 @@ declare namespace LocalJSX {
           * The arcs of the wheel
          */
         "arcs"?: SealRouletteArc[];
+        /**
+          * The air friction applied to the wheel
+         */
+        "frictionAir"?: number;
         /**
           * Emitted when the wheel is spinning
          */

@@ -11,7 +11,9 @@
   <body>
     <my-component first="Stencil" last="JS" middle="'Don't call me a framework'"></my-component>
 
-    <seal-roulette></seal-roulette>
+    <seal-roulette friction-air="0.0"></seal-roulette>
+
+    <button onclick="document.querySelector('seal-roulette').spin()">Spin</button>
   </body>
 
 <script>
@@ -23,6 +25,7 @@
 
   sealRoulette.addEventListener('stopped', (event) => {
     console.log('Selected arc:', event.detail);
+
   });
 </script>
 </html>
