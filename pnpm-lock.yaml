@@ -21,8 +21,8 @@ importers:
   packages/react-library:
     dependencies:
       '@sealambda/components':
-        specifier: '*'
-        version: 0.1.1
+        specifier: workspace:*
+        version: link:../stencil-library
       '@stencil/react-output-target':
         specifier: ^0.8.2
         version: 0.8.2(@stencil/core@4.23.2)(@types/react@19.0.6)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -574,9 +574,6 @@ packages:
     resolution: {integrity: sha512-aBSREisdsGH890S2rQqK82qmQYU3uFpSH8wcZWHgHzl3LfzsxAKbLNiAG9mO8v1Y0UICBeClICxPJvyr0rcuxg==}
     engines: {node: '>=18'}
     hasBin: true
-
-  '@sealambda/components@0.1.1':
-    resolution: {integrity: sha512-Br/8vQhg6WBjsnmuT0eiiF43iUuoGRH/k2QwgHwEzrBKh+YMd5/MADurKdXIU5HAuH+1k5M3uaPBsFbRvqmyHA==}
 
   '@sigstore/bundle@2.3.2':
     resolution: {integrity: sha512-wueKWDk70QixNLB363yHc2D2ItTgYiMTdPwK8D9dKQMR3ZQ0c35IxP5xnwQ8cNLoCgCRcHf14kE+CLIvNX1zmA==}
@@ -3938,11 +3935,6 @@ snapshots:
     transitivePeerDependencies:
       - bare-buffer
       - supports-color
-
-  '@sealambda/components@0.1.1':
-    dependencies:
-      matter-js: 0.20.0
-      pixi.js: 8.6.6
 
   '@sigstore/bundle@2.3.2':
     dependencies:
