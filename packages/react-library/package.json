@@ -1,0 +1,27 @@
+{
+  "name": "@sealambda/components-react",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Giorgio Azzinnaro <giorgio@azzinna.ro>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "@sealambda/components": "workspace:*",
+    "@stencil/react-output-target": "^0.8.2"
+  }
+}

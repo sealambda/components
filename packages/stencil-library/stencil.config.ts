@@ -1,4 +1,5 @@
 import { Config } from '@stencil/core';
+import { reactOutputTarget } from '@stencil/react-output-target';
 
 export const config: Config = {
   namespace: 'seal-components',
@@ -7,6 +8,11 @@ export const config: Config = {
       type: 'dist',
       esmLoaderPath: '../loader',
     },
+    reactOutputTarget({
+      // Relative path to where the React components will be generated
+      outDir: '../react-library/lib/components/stencil-generated/',
+    }),
+    // dist-custom-elements output target is required for the React output target
     {
       type: 'dist-custom-elements',
       customElementsExportBehavior: 'auto-define-custom-elements',
