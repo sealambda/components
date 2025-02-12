@@ -291,7 +291,7 @@ export class SealRoulette implements ComponentInterface {
   render() {
     return (
       <Host>
-        <canvas ref={el => (this.canvas = el)}></canvas>
+        <canvas style={{'max-width': '100%'}} ref={el => (this.canvas = el)}></canvas>
         <slot></slot>
       </Host>
     );
