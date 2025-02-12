@@ -5,6 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { SealRouletteArc } from "./components/seal-roulette/seal-roulette";
+export { SealRouletteArc } from "./components/seal-roulette/seal-roulette";
 export namespace Components {
     interface MyComponent {
         /**
@@ -20,6 +22,25 @@ export namespace Components {
          */
         "middle": string;
     }
+    interface SealRoulette {
+        /**
+          * The arcs of the wheel
+         */
+        "arcs": SealRouletteArc[];
+        /**
+          * The air friction applied to the wheel
+         */
+        "frictionAir": number;
+        /**
+          * The radius of the wheel
+         */
+        "radius": number;
+        "spin": (force?: number) => Promise<void>;
+    }
+}
+export interface SealRouletteCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSealRouletteElement;
 }
 declare global {
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
@@ -28,8 +49,27 @@ declare global {
         prototype: HTMLMyComponentElement;
         new (): HTMLMyComponentElement;
     };
+    interface HTMLSealRouletteElementEventMap {
+        "spinning": void;
+        "stopped": [number, SealRouletteArc];
+    }
+    interface HTMLSealRouletteElement extends Components.SealRoulette, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSealRouletteElementEventMap>(type: K, listener: (this: HTMLSealRouletteElement, ev: SealRouletteCustomEvent<HTMLSealRouletteElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSealRouletteElementEventMap>(type: K, listener: (this: HTMLSealRouletteElement, ev: SealRouletteCustomEvent<HTMLSealRouletteElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSealRouletteElement: {
+        prototype: HTMLSealRouletteElement;
+        new (): HTMLSealRouletteElement;
+    };
     interface HTMLElementTagNameMap {
         "my-component": HTMLMyComponentElement;
+        "seal-roulette": HTMLSealRouletteElement;
     }
 }
 declare namespace LocalJSX {
@@ -47,8 +87,31 @@ declare namespace LocalJSX {
          */
         "middle"?: string;
     }
+    interface SealRoulette {
+        /**
+          * The arcs of the wheel
+         */
+        "arcs"?: SealRouletteArc[];
+        /**
+          * The air friction applied to the wheel
+         */
+        "frictionAir"?: number;
+        /**
+          * Emitted when the wheel is spinning
+         */
+        "onSpinning"?: (event: SealRouletteCustomEvent<void>) => void;
+        /**
+          * Emitted when the wheel stops spinning
+         */
+        "onStopped"?: (event: SealRouletteCustomEvent<[number, SealRouletteArc]>) => void;
+        /**
+          * The radius of the wheel
+         */
+        "radius"?: number;
+    }
     interface IntrinsicElements {
         "my-component": MyComponent;
+        "seal-roulette": SealRoulette;
     }
 }
 export { LocalJSX as JSX };
@@ -56,6 +119,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "seal-roulette": LocalJSX.SealRoulette & JSXBase.HTMLAttributes<HTMLSealRouletteElement>;
         }
     }
 }

@@ -14,11 +14,14 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    // prettier-ignore
     "paths": {
       "@seal-components/core-components": ["dist/libs/core-components"],
-      "@seal-components/core-components/*": ["dist/libs/core-components/dist/components/*"],
-      "@seal-components/core-components/loader": ["dist/libs/core-components/loader"]
+      "@seal-components/core-components/*": [
+        "dist/libs/core-components/dist/components/*"
+      ],
+      "@seal-components/core-components/loader": [
+        "dist/libs/core-components/loader"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

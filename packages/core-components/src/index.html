@@ -12,9 +12,20 @@
     <script nomodule src="/build/core-components.js"></script>
   </head>
   <body>
-    <my-component
-      first="Stencil"
-      last="'Don't call me a framework' JS"
-    ></my-component>
+    <seal-roulette friction-air="0.25"></seal-roulette>
+
+    <button onclick="document.querySelector('seal-roulette').spin()">Spin</button>
   </body>
+
+<script>
+  const sealRoulette = document.querySelector('seal-roulette');
+
+  sealRoulette.addEventListener('spinning', () => {
+    console.log('Roulette started spinnng');
+  });
+
+  sealRoulette.addEventListener('stopped', (event) => {
+    console.log('Selected arc:', event.detail);
+  });
+</script>
 </html>
