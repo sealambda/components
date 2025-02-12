@@ -16,6 +16,7 @@
     "@nx/js": "20.4.2",
     "@nx/node": "20.4.2",
     "@nx/workspace": "20.4.2",
+    "@nxext/stencil": "^20.0.6",
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
