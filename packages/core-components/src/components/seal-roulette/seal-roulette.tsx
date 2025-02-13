@@ -16,12 +16,12 @@ export class SealRoulette implements ComponentInterface {
   /**
    * The air friction applied to the wheel
    */
-  @Prop() public frictionAir: number = 0.15;
+  @Prop() public frictionAir = 0.15;
 
   /**
    * The radius of the wheel
    */
-  @Prop() public radius: number = 256;
+  @Prop() public radius = 256;
 
   /**
    * The arcs of the wheel

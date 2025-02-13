@@ -55,13 +55,6 @@
         "configPath": "packages/core-components/stencil.config.ts",
         "outputPath": "dist/packages/core-components"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": "packages/core-components/**/*.{ts,tsx}"
-      }
     }
   }
 }
