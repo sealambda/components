@@ -8,6 +8,13 @@
 
 - Giorgio Azzinnaro
 
+## [0.3.0](https://github.com/sealambda/components/compare/v0.2.2...v0.3.0) (2025-02-14)
+
+
+### Continuous Integration
+
+* fix test ([e6d48f9](https://github.com/sealambda/components/commit/e6d48f98dee174f7f819f911ff20908582814c24))
+
 ## [0.2.2](https://github.com/sealambda/components/compare/v0.2.1...v0.2.2) (2025-02-14)
 
 
