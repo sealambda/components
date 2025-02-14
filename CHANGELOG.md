@@ -8,6 +8,18 @@
 
 - Giorgio Azzinnaro
 
+## [0.5.0](https://github.com/sealambda/components/compare/v0.4.1...v0.5.0) (2025-02-14)
+
+
+### Bug Fixes
+
+* test ([ef19c86](https://github.com/sealambda/components/commit/ef19c86d6f5677bfc87055cd4476f41cd583fccf))
+
+
+### Continuous Integration
+
+* fix provenance ([1a5d645](https://github.com/sealambda/components/commit/1a5d64580f761de89acd00b90f5e154a356a2476))
+
 ## [0.4.1](https://github.com/sealambda/components/compare/v0.4.0...v0.4.1) (2025-02-14)
 
 
