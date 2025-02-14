@@ -1,6 +1,7 @@
 {
   "packages": {
     ".": {
+      "component": "root",
       "changelog-path": "CHANGELOG.md",
       "release-type": "node",
       "bump-minor-pre-major": false,
@@ -8,7 +9,17 @@
       "draft": false,
       "prerelease": false
     },
-    "packages/core-components": {}
+    "packages/core-components": {
+      "component": "core-components",
+      "release-type": "node"
+    }
   },
+  "plugins": [
+    {
+      "type": "linked-versions",
+      "groupName": "all",
+      "components": ["root", "core-components"]
+    }
+  ],
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json"
 }
