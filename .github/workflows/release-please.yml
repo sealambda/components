@@ -32,7 +32,7 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
       - uses: nrwl/nx-set-shas@v4
         if: ${{ steps.release.outputs.release_created }}
-      - run: pnpm exec nx affected -t lint build
+      - run: pnpm exec nx run-many -t lint build
         if: ${{ steps.release.outputs.release_created }}
       - run: pnpm nx publish
         env:
