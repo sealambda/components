@@ -8,6 +8,14 @@
 
 - Giorgio Azzinnaro
 
+## [0.2.2](https://github.com/sealambda/components/compare/v0.2.1...v0.2.2) (2025-02-14)
+
+
+### Bug Fixes
+
+* package name ([f9ffc28](https://github.com/sealambda/components/commit/f9ffc285fc8b851342dba75eb90a30fcc316642a))
+* upgrade ([bb97da2](https://github.com/sealambda/components/commit/bb97da2eebb34b8924a8f9461dae246b52011e17))
+
 ## [0.2.1](https://github.com/sealambda/components/compare/v0.2.0...v0.2.1) (2025-02-13)
 
 
