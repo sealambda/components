@@ -8,6 +8,13 @@
 
 - Giorgio Azzinnaro
 
+## [0.6.1](https://github.com/sealambda/components/compare/v0.6.0...v0.6.1) (2025-02-14)
+
+
+### Bug Fixes
+
+* remove old component ([2f71e59](https://github.com/sealambda/components/commit/2f71e59499b33c2172ec3a9225930af13af43b01))
+
 ## [0.6.0](https://github.com/sealambda/components/compare/v0.5.1...v0.6.0) (2025-02-14)
 
 
