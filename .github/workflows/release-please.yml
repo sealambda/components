@@ -34,7 +34,7 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
       - run: pnpm exec nx run-many -t lint build
         if: ${{ steps.release.outputs.release_created }}
-      - run: pnpm nx publish
+      - run: pnpm nx release publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         if: ${{ steps.release.outputs.release_created }}
