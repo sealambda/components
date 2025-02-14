@@ -8,6 +8,13 @@
 
 - Giorgio Azzinnaro
 
+## [0.4.0](https://github.com/sealambda/components/compare/v0.3.0...v0.4.0) (2025-02-14)
+
+
+### Continuous Integration
+
+* use nx release publish ([0b2802b](https://github.com/sealambda/components/commit/0b2802be7f6090c59397ec57e8c7193e0146e284))
+
 ## [0.3.0](https://github.com/sealambda/components/compare/v0.2.2...v0.3.0) (2025-02-14)
 
 
