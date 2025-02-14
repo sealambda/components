@@ -15,13 +15,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@seal-components/core-components": ["dist/libs/core-components"],
-      "@seal-components/core-components/*": [
+      "@sealambda/core-components": ["dist/libs/core-components"],
+      "@sealambda/core-components/*": [
         "dist/libs/core-components/dist/components/*"
       ],
-      "@seal-components/core-components/loader": [
-        "dist/libs/core-components/loader"
-      ]
+      "@sealambda/core-components/loader": ["dist/libs/core-components/loader"]
     }
   },
   "exclude": ["node_modules", "tmp"]

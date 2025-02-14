@@ -1,5 +1,5 @@
 {
-  "name": "@seal-components/core-components",
+  "name": "@sealambda/core-components",
   "version": "0.2.0",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.js",
