@@ -8,6 +8,13 @@
 
 - Giorgio Azzinnaro
 
+## [0.4.1](https://github.com/sealambda/components/compare/v0.4.0...v0.4.1) (2025-02-14)
+
+
+### Bug Fixes
+
+* package access ([83fdea5](https://github.com/sealambda/components/commit/83fdea54894ff0008435f683544316f34146be6d))
+
 ## [0.4.0](https://github.com/sealambda/components/compare/v0.3.0...v0.4.0) (2025-02-14)
 
 
