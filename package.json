@@ -34,6 +34,7 @@
     "nx": "20.4.4",
     "prettier": "^3.5.1",
     "puppeteer": "^21.4.1",
+    "release-please": "^16.15.0",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.2",
     "tslib": "^2.3.0",
